@@ -5,6 +5,7 @@ import uvicorn
 from backend.app.api.routes_data import router as data_router
 from backend.app.api.routes_models import router as models_router
 from backend.app.api.routes_telemetry import router as telemetry_router
+from backend.app.api.routes_corners import router as corners_router
 
 app = FastAPI(
     title="F1 Driver Performance ML Analytics API",
@@ -25,6 +26,7 @@ app.add_middleware(
 app.include_router(data_router, prefix="/api")
 app.include_router(models_router, prefix="/api")
 app.include_router(telemetry_router, prefix="/api")
+app.include_router(corners_router, prefix="/api/corners")
 
 @app.get("/")
 def root():

@@ -112,3 +112,43 @@ export async function predictCustomLap(params: {
   if (!res.ok) throw new Error('Failed to predict custom telemetry lap');
   return res.json();
 }
+
+export async function fetchCornerLayout() {
+  const res = await fetch(`${API_BASE_URL}/corners/monza/layout`);
+  if (!res.ok) throw new Error('Failed to fetch Monza corner layout');
+  return res.json();
+}
+
+export async function compareCorners(
+  driver1: string = 'VER',
+  driver2: string = 'HAM',
+  season: number = 2023,
+  session: string = 'R'
+) {
+  const query = new URLSearchParams({
+    d1: driver1,
+    d2: driver2,
+    season: season.toString(),
+    session: session
+  });
+  const res = await fetch(`${API_BASE_URL}/corners/compare?${query.toString()}`);
+  if (!res.ok) throw new Error('Failed to fetch corner comparison');
+  return res.json();
+}
+
+export async function fetchCornerImportances() {
+  const res = await fetch(`${API_BASE_URL}/corners/importances`);
+  if (!res.ok) throw new Error('Failed to fetch corner importances');
+  return res.json();
+}
+
+export async function predictCornerLap(params: Record<string, number>) {
+  const res = await fetch(`${API_BASE_URL}/corners/predict-lap`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(params),
+  });
+  if (!res.ok) throw new Error('Failed to predict corner-based lap');
+  return res.json();
+}
+

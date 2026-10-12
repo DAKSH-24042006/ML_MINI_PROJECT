@@ -140,3 +140,84 @@ export interface CustomPredictResponse {
     sector_3: number;
   };
 }
+
+export interface CornerSegment {
+  id: string;
+  type: 'corner' | 'straight';
+  name: string;
+  start_m: number;
+  end_m: number;
+  apex_m?: number | null;
+  turn_numbers: number[];
+}
+
+export interface SegmentComparisonResult {
+  segment_id: string;
+  segment_name: string;
+  type: 'corner' | 'straight';
+  turn_numbers: number[];
+  d1_speed: number;
+  d2_speed: number;
+  delta_speed: number;
+  d1_braking_m?: number;
+  d2_braking_m?: number;
+  d1_exit_speed?: number;
+  d2_exit_speed?: number;
+  d1_full_throttle?: number;
+  d2_full_throttle?: number;
+  d1_style?: string;
+  d2_style?: string;
+  winner: string;
+  winner_color: string;
+  time_delta_gain: number;
+}
+
+export interface CornerCompareTracePoint {
+  distance: number;
+  d1_speed: number;
+  d2_speed: number;
+  delta_time: number;
+  delta_speed: number;
+  leader: string;
+  leader_color: string;
+}
+
+export interface CornerCompareResponse {
+  driver1: {
+    code: string;
+    name: string;
+    team: string;
+    color: string;
+    lap_time: number;
+  };
+  driver2: {
+    code: string;
+    name: string;
+    team: string;
+    color: string;
+    lap_time: number;
+  };
+  total_lap_delta: number;
+  overall_winner: string;
+  overall_winner_color: string;
+  segments: SegmentComparisonResult[];
+  trace: CornerCompareTracePoint[];
+}
+
+export interface CornerPredictResponse {
+  predicted_lap_time: number;
+  linear_regression_pred: number;
+  svr_pred: number;
+  decision_tree_pred: number;
+  monza_pole_benchmark: number;
+  delta_vs_pole: number;
+  is_faster_than_pole: boolean;
+  driving_style: string;
+  feature_importances: Array<{
+    feature: string;
+    label: string;
+    importance_pct: number;
+    is_corner: boolean;
+  }>;
+}
+
